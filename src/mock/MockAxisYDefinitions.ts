@@ -18,6 +18,13 @@ export const TiltDefinition : IAxisYDefinition = {
         suffix: "degrees"
 };
 
+export const RssiDefinition : IAxisYDefinition = {
+        title: "RSSI",
+        lineColor: "blue",
+        tickColor: "blue",
+        labelFontColor: "blue",
+        titleFontColor: "blue",
+};
 export const TemperatureDefinition : IAxisYDefinition = {
         title: "Temperature",
         lineColor: "#369EAD",

@@ -8,7 +8,7 @@ export const tempSeries: IDataSeries = {
     name: "Temperature",
     color: "#369EAD",
     showInLegend: true,
-    axisYIndex: 1,
+    axisYIndex: 0,
     dataPoints: [
         { x: new Date(2017, 0, 7), y: 25.4 },
         { x: new Date(2017, 0, 14), y: 22.7 },
@@ -48,6 +48,7 @@ export const tiltSeries: IDataSeries = {
     name: "Tilt",
     color: "#C24642",
     axisYIndex: 0,
+    axisYType: "secondary",
     showInLegend: true,
     dataPoints: [
         { x: new Date(2017, 0, 7), y: 32.3 },
@@ -69,7 +70,7 @@ export const batterySeries: IDataSeries = {
     type: linetype,
     name: "Battery",
     color: "#7F6084",
-    axisYType: "secondary",
+    axisYIndex: 1,
     showInLegend: true,
     dataPoints: [
         { x: new Date(2017, 0, 7), y: 2.5 },
@@ -94,7 +95,7 @@ export const gravitySeries: IDataSeries = {
     type: linetype,
     name: "Gravity",
     color: "green",
-    axisYIndex: 0,
+    axisYIndex: 2,
     showInLegend: true,
     dataPoints: [
         { x: new Date(2017, 0, 7), y: 18.5 },
@@ -159,7 +160,8 @@ export const rssiSeries: IDataSeries = {
     type: linetype,
     name: "RSSI",
     color: "blue",
-    axisYIndex: 0,
+    axisYIndex: 1,
+    axisYType: "secondary",
     showInLegend: true,
     dataPoints: [
         { x: new Date(2017, 0, 7), y: 42.5 },

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {  testData } from '../../mock/MockDataSeries';
 import * as CanvasJS from '../../assets/canvasjs/canvasjs.min';
-import { TiltDefinition, TemperatureDefinition, GravityDefinition, BatteryDefinition } from 'src/mock/MockAxisYDefinitions';
+import { TiltDefinition, TemperatureDefinition, GravityDefinition, BatteryDefinition, RssiDefinition } from 'src/mock/MockAxisYDefinitions';
 
 @Component({
   selector: 'app-graph',
@@ -24,12 +24,13 @@ export class GraphComponent implements OnInit {
         text: "Watch the Beer get better!"
       }],
       axisY: [
-        TiltDefinition,
-        TemperatureDefinition
+        TemperatureDefinition,
+        BatteryDefinition,
+        GravityDefinition,
       ],
       axisY2: [
-        GravityDefinition,
-        BatteryDefinition
+        TiltDefinition,
+        RssiDefinition,
       ], 
       toolTip: {
         shared: true
