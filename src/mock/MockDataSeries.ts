@@ -1,5 +1,5 @@
-import { IDataPoint } from '../classes/IDataPoint';
-import { IDataSeries } from '../classes/IDataSeries';
+import { IDataPoint } from '../classes/Data/IDataPoint';
+import { IDataSeries } from '../classes/Data/IDataSeries';
 
 const linetype = "line";
 
