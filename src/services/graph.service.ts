@@ -4,7 +4,8 @@ import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 import { IDataPoint } from 'src/classes/Data/IDataPoint';
-import { IRawNumericalData, NumericalData } from 'src/classes/Data/NumericalData';
+import { NumericalData } from 'src/classes/Data/NumericalData';
+import { IRawData } from 'src/classes/Data/IRawData';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class GraphService {
 
   private _createDataPoints(response: AjaxResponse): Array<IDataPoint> {
     return response.response
-      .map((rawData: IRawNumericalData) => {
+      .map((rawData: IRawData) => {
         const dataPoint = new NumericalData();
         dataPoint.x = new Date(rawData.timestamp);
         dataPoint.y = parseFloat(rawData.value);
@@ -43,9 +44,9 @@ export class GraphService {
 
   private _getValueList(start: number, end: number, type: string): Observable<IDataPoint[]> {
     const validateResponse = (response: AjaxResponse) => this._responseValidator(response);
-    const getTemps = ajax(this._getAjaxRequest(type));
+    const dataResponse = ajax(this._getAjaxRequest(type));
 
-    const rawData$ = getTemps.pipe(
+    const rawData$ = dataResponse.pipe(
       map(validateResponse),
       map(this._createDataPoints)
     );
