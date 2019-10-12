@@ -3,13 +3,8 @@ import { IDataSeries } from '../classes/Data/IDataSeries';
 
 const linetype = "line";
 
-export const tempSeries: IDataSeries = {
-    type: linetype,
-    name: "Temperature",
-    color: "#369EAD",
-    showInLegend: true,
-    axisYIndex: 0,
-    dataPoints: [
+export const tempPoints: IDataPoint[] =
+    [
         { x: new Date(2017, 0, 7), y: 25.4 },
         { x: new Date(2017, 0, 14), y: 22.7 },
         { x: new Date(2017, 0, 21), y: 24.9 },
@@ -22,11 +17,14 @@ export const tempSeries: IDataSeries = {
         { x: new Date(2017, 2, 11), y: 20.2 },
         { x: new Date(2017, 2, 18), y: 27.3 },
         { x: new Date(2017, 2, 25), y: 28.5 }
-    ]
-};
+    ];
 
-export const tempSingleSeries: IDataSeries = {
+export const tempSeries: IDataSeries = {
     type: linetype,
+    name: "Temperature",
+    color: "#369EAD",
+    showInLegend: true,
+    axisYIndex: 0,
     dataPoints: [
         { x: new Date(2017, 0, 7), y: 25.4 },
         { x: new Date(2017, 0, 14), y: 22.7 },
@@ -66,6 +64,24 @@ export const tiltSeries: IDataSeries = {
     ],
 };
 
+export const batteryPoints: IDataPoint[] = [
+    { x: new Date(2017, 0, 7), y: 2.5 },
+    { x: new Date(2017, 0, 14), y: 4.3 },
+    { x: new Date(2017, 0, 21), y: 8.7 },
+    { x: new Date(2017, 0, 28), y: 2.5 },
+    { x: new Date(2017, 1, 4), y: 5.6 },
+    { x: new Date(2017, 1, 11), y: 5.7 },
+    { x: new Date(2017, 1, 18), y: 4.6 },
+    { x: new Date(2017, 1, 25), y: 12.0 },
+    { x: new Date(2017, 2, 4), y: 23.9 },
+    { x: new Date(2017, 2, 11), y: 36.4 },
+    { x: new Date(2017, 2, 18), y: 40.3 },
+    { x: new Date(2017, 2, 25), y: 54.2 },
+    { x: new Date(2017, 2, 27), y: 64.2 },
+    { x: new Date(2017, 2, 28), y: 74.2 },
+    { x: new Date(2017, 2, 29), y: 100 }
+];
+
 export const batterySeries: IDataSeries = {
     type: linetype,
     name: "Battery",
@@ -91,6 +107,18 @@ export const batterySeries: IDataSeries = {
     ],
 };
 
+export const gravityPoints: IDataPoint[] = [
+    { x: new Date(2017, 0, 7), y: 18.5 },
+    { x: new Date(2017, 0, 14), y: 20.3 },
+    { x: new Date(2017, 0, 21), y: 17.7 },
+    { x: new Date(2017, 0, 28), y: 15.5 },
+    { x: new Date(2017, 1, 4), y: 10.6 },
+    { x: new Date(2017, 1, 11), y: 12.7 },
+    { x: new Date(2017, 1, 18), y: 13.6 },
+    { x: new Date(2017, 1, 25), y: 14.0 },
+    { x: new Date(2017, 2, 4), y: 13.9 },
+    { x: new Date(2017, 2, 11), y: 26.4 }
+];
 export const gravitySeries: IDataSeries = {
     type: linetype,
     name: "Gravity",
@@ -177,7 +205,7 @@ export const rssiSeries: IDataSeries = {
         { x: new Date(2017, 2, 18), y: 40.3 },
         { x: new Date(2017, 2, 25), y: 54.2 }
     ]
-}; 
+};
 
 export const testData: IDataSeries[] = [
     tempSeries,

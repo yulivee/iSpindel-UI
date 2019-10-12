@@ -7,5 +7,5 @@ export class NumericalData implements IDataPoint {
 
 export interface IRawNumericalData {
     timestamp: string,
-    value: number
+    value: string,
 }

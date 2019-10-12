@@ -1,4 +1,4 @@
-import { IAxisYDefinition } from 'src/classes/IAxisYDefinition';
+import { IAxisYDefinition } from 'src/classes/AxisDefinitions/IAxisYDefinition';
 
 export const GravityDefinition: IAxisYDefinition = {
         title: "Gravity",

@@ -35,7 +35,7 @@ export class GraphService {
       .map((rawData: IRawNumericalData) => {
         const dataPoint = new NumericalData();
         dataPoint.x = new Date(rawData.timestamp);
-        dataPoint.y = rawData.value;
+        dataPoint.y = parseFloat(rawData.value);
         return dataPoint;
       });
   }
@@ -47,7 +47,7 @@ export class GraphService {
 
     const rawData$ = getTemps.pipe(
       map(validateResponse),
-      map(validatedResponse => this._createDataPoints(validatedResponse))
+      map(this._createDataPoints)
     );
 
     return rawData$;

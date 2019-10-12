@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { tempSeries, tiltSeries, batterySeries, gravitySeries, rssiSeries } from '../../mock/MockDataSeries';
+import { tempSeries, tiltSeries, batterySeries, gravitySeries, rssiSeries, tempPoints, batteryPoints, gravityPoints } from '../../mock/MockDataSeries';
 import * as CanvasJS from '../../assets/canvasjs/canvasjs.min';
 import { TiltDefinition, RssiDefinition } from 'src/mock/MockAxisYDefinitions';
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { GraphService } from 'src/services/graph.service';
 import { IDataPoint } from 'src/classes/Data/IDataPoint';
 import { Temperature } from 'src/classes/Data/Temperature';
@@ -12,6 +12,7 @@ import { GravityDefinition } from 'src/classes/AxisDefinitions/GravityDefinition
 import { Gravity } from 'src/classes/Data/Gravity';
 import { Battery } from 'src/classes/Data/Battery';
 import { GraphConfig } from 'src/classes/GraphConfig';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-graph',
@@ -42,16 +43,25 @@ export class GraphComponent implements OnInit {
     this._temperatureDataList = this._graphService.getTemperatureList(1, 2);
     this._batteryDataList = this._graphService.getBatteryList(1, 2);
     this._gravityDataList = this._graphService.getGravityList(1, 2);
-
-    this._temperatureDataList.subscribe( rawList => this.temperature.dataPoints = rawList);
-    this._gravityDataList.subscribe(rawList => this.gravity.dataPoints = rawList);
-    this._batteryDataList.subscribe(rawList => this.battery.dataPoints = rawList);
-
-    this.initChart();
+    
+    zip(this._temperatureDataList, this._batteryDataList, this._gravityDataList).pipe(
+      map( ([tempData, batteryData, gravityData]) => {
+        this.temperature.dataPoints = tempData;
+        this.gravity.dataPoints = gravityData;
+        this.battery.dataPoints = batteryData;
+      })
+      ).subscribe(() => this.initChart());
+      /*
+      this.temperature.dataPoints = tempPoints;
+      this.battery.dataPoints = batteryPoints;
+      this.gravity.dataPoints = gravityPoints;
+      this.initChart();
+ */
 
   }
 
   private initChart(): void {
+    console.log(this.temperature);
     this.graphConfig = new GraphConfig([this.temperatureDef, this.batteryDef, this.gravityDef], [this.temperature, this.battery, this.gravity]);
     this.chart = new CanvasJS.Chart("chartContainer", this.graphConfig);
 
