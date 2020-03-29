@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { map } from 'rxjs/operators';
 
 import { IDataPoint } from 'src/classes/Data/IDataPoint';
 import { NumericalData } from 'src/classes/Data/NumericalData';
 import { IRawData } from 'src/classes/Data/IRawData';
+
+import { environment } from 'src/environments/environment';
+
+import { tempSeries, tiltSeries, batterySeries, gravitySeries, rssiSeries, tempPoints, batteryPoints, gravityPoints } from 'src/mock/MockDataSeries';
 
 @Injectable({
   providedIn: 'root'
@@ -55,15 +59,33 @@ export class GraphService {
 
   }
 
+  private _fakeTemperatureData(): Observable<IDataPoint[]> {
+    return of(tempPoints);
+  }
+
+  private _fakeBatteryData(): Observable<IDataPoint[]> {
+    return of(batteryPoints);
+  }
+
+  private _fakeGravityData(): Observable<IDataPoint[]> {
+    return of(gravityPoints);
+  }
+
   public getTemperatureList(start: number, end: number): Observable<IDataPoint[]> {
+    if(!environment.production)
+      return this._fakeTemperatureData();
     return this._getValueList(start, end, 'temperature');
   }
 
   public getBatteryList(start: number, end: number): Observable<IDataPoint[]> {
+    if(!environment.production)
+      return this._fakeBatteryData();
     return this._getValueList(start, end, 'battery');
   }
 
   public getGravityList(start: number, end: number): Observable<IDataPoint[]> {
+    if(!environment.production)
+      return this._fakeGravityData();
     return this._getValueList(start, end, 'gravity');
   }
 }
