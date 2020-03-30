@@ -12,7 +12,7 @@ import { Gravity } from 'src/classes/Data/Gravity';
 import { Battery } from 'src/classes/Data/Battery';
 import { GraphConfig } from 'src/classes/GraphConfig';
 import { map } from 'rxjs/operators';
-import { MqttService } from 'src/services/mqtt.service';
+import { MqttSubscriptionService } from 'src/services/mqtt.service';
 
 @Component({
   selector: 'app-graph',
@@ -33,13 +33,13 @@ export class GraphComponent implements OnInit {
   private _batteryDataList$: Observable<IDataPoint[]>;
   public battery: Battery = new Battery('#7F6089', 1)
   public batteryDef: BatteryDefinition = new BatteryDefinition(this.battery.name, this.battery.color);
-  
+
   private _gravityDataList$: Observable<IDataPoint[]>;
   public gravity: Gravity = new Gravity('green', 2)
   public gravityDef: GravityDefinition = new GravityDefinition(this.gravity.name, this.gravity.color);
 
 
-  constructor(private _graphService: GraphService, private _mqttService : MqttService) { }
+  constructor(private _graphService: GraphService, private _mqttService: MqttSubscriptionService) { }
 
   ngOnInit() {
 
@@ -50,20 +50,14 @@ export class GraphComponent implements OnInit {
     this._temperatureDataList$ = this._graphService.getTemperatureList(1, 2);
     this._batteryDataList$ = this._graphService.getBatteryList(1, 2);
     this._gravityDataList$ = this._graphService.getGravityList(1, 2);
-    
+
     zip(this._temperatureDataList$, this._batteryDataList$, this._gravityDataList$).pipe(
-      map( ([tempData, batteryData, gravityData]) => {
+      map(([tempData, batteryData, gravityData]) => {
         this.temperature.dataPoints = tempData;
         this.gravity.dataPoints = gravityData;
         this.battery.dataPoints = batteryData;
       })
-      ).subscribe(() => this.initChart());
-/*
-      this.temperature.dataPoints = tempPoints;
-      this.battery.dataPoints = batteryPoints;
-      this.gravity.dataPoints = gravityPoints;
-      this.initChart();
-*/
+    ).subscribe(() => this.initChart());
   }
 
   private initChart(): void {

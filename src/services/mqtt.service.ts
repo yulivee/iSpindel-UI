@@ -1,67 +1,95 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { ajax, AjaxResponse } from 'rxjs/ajax';
-import { map } from 'rxjs/operators';
-import { Paho } from 'ng2-mqtt/mqttws31';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Observable, generate } from 'rxjs';
+import { MqttService } from 'ngx-mqtt';
+import { TemperatureSensor } from 'src/classes/Sensors/TemperaturSensor';
+import { BatterySensor } from 'src/classes/Sensors/BatterySensor';
+import { GravitySensor } from 'src/classes/Sensors/GravitySensor';
+import { ISensor } from 'src/classes/Sensors/ISensor';
+import { map, tap } from 'rxjs/operators';
+import { SENSOR_DATA_TYPE } from 'src/classes/Sensors/SensorTypes'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MqttService {
 
-  private client: Paho.MQTT.Client;
-  private mqttbroker: string = "192.168.1.120";
 
-  constructor() {
-    this.client = new Paho.MQTT.Client(this.mqttbroker, Number(1883), 'iSpindelUI');
-    this.client.onMessageArrived = this.onMessageArrived.bind(this);
-    this.client.onConnectionLost = this.onConnectionLost.bind(this);
-    this.client.connect({ userName: 'minion', password: 'IPreferNotTo', onSuccess: this.onConnect.bind(this) });
+export class MqttSubscriptionService implements OnDestroy {
+
+  private _iSpindelBasePath = 'ispindel/iSpindel0/';
+  public temperatureSensor: TemperatureSensor = new TemperatureSensor('Temperatur', this._iSpindelBasePath + 'temperature');
+  public batterySensor: BatterySensor = new BatterySensor('Battery', this._iSpindelBasePath + 'battery');
+  public gravitySensor: GravitySensor = new GravitySensor('Gravity', this._iSpindelBasePath + 'gravity');
+
+  constructor(private _mqttService: MqttService) {
+    this._subscribeAllSensors();
   }
 
-  private onConnect() {
-    console.log('onConnect');
-    this.client.subscribe('ispindel/iSpindel0/temperature', {});
-    this.client.subscribe('ispindel/iSpindel0/battery', {});
-    this.client.subscribe('ispindel/iSpindel0/gravity', {});
+  private _subscribeAllSensors() {
+    this._subscribeSensor(this.temperatureSensor);
+    this._subscribeSensor(this.batterySensor);
+    this._subscribeSensor(this.gravitySensor);
   }
 
-  private onConnectionLost(responseObject) {
-    if (responseObject.errorCode !== 0) {
-      console.log('onConnectionLost:' + responseObject.errorMessage);
-    }
+  private _unsubscribeAllSensors() {
+    this._unsubscribeSensor(this.temperatureSensor);
+    this._unsubscribeSensor(this.batterySensor);
+    this._unsubscribeSensor(this.gravitySensor);
   }
 
-  public temperature$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public battery$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public gravity$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
-  private onMessageArrived(message: Paho.MQTT.Message) {
-    console.log('onMessageArrived: ' + message.destinationName + ': ' + message.payloadString);
-
-    if (message.destinationName.indexOf('temperature') !== -1) {
-      this.temperature$.next(Number(message.payloadString));
-    }
-
-    if (message.destinationName.indexOf('battery') !== -1) {
-      this.battery$.next(Number(message.payloadString));
-    }
-
-    if (message.destinationName.indexOf('gravity') !== -1) {
-      this.gravity$.next(Number(message.payloadString));
-    }
+  private _subscribeSensor(sensor: ISensor) {
+    sensor.subscription = this._mqttService
+      .observe(sensor.topic)
+      .pipe(
+        map(msg => msg.payload.toString()),
+        tap((msg: string) => {
+          switch (sensor.data_type) {
+            case SENSOR_DATA_TYPE.NUMBER:
+              sensor.value.next(Number(msg))
+              break;
+            case SENSOR_DATA_TYPE.BOOL:
+              if (msg == 'on') {
+                sensor.value.next(true)
+              } else {
+                sensor.value.next(false)
+              }
+              break;
+            case SENSOR_DATA_TYPE.STRING:
+            default:
+              sensor.value.next(msg);
+              break;
+          }
+        })
+      ).subscribe();
   }
 
+  private _unsubscribeSensor(sensor: ISensor) {
+    sensor.subscription.unsubscribe();
+  }
 
   public getTemperature(): Observable<number> {
-    return this.temperature$.asObservable();
+    //    if (!environment.production)
+    //      return generate(this.randomInt(0, 30));
+    return this.temperatureSensor.value.asObservable();
+  }
+
+  private _randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   public getBattery(): Observable<number> {
-    return this.battery$.asObservable();
+    //    if (!environment.production)
+    //      return generate(this.randomInt(0, 100));
+    return this.batterySensor.value.asObservable();
   }
 
   public getGravity(): Observable<number> {
-    return this.gravity$.asObservable();
+    //if (!environment.production)
+    //  return generate(this.randomInt(0, 20));
+    return this.gravitySensor.value.asObservable();
+  }
+
+  public ngOnDestroy() {
+    this._unsubscribeAllSensors();
   }
 }
