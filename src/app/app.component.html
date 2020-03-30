@@ -1,1 +1,32 @@
-<app-graph></app-graph>
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-icon-button aria-label="Icon Button for Menu" (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <span>{{title}}</span>
+        <span class="spacer"></span>
+        <mat-icon svgIcon="glass-mug-variant"></mat-icon>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-drawer-container class="container">
+    <mat-drawer #drawer [opened]="screenWidth > 600" [mode]="(screenWidth > 600) ? 'side' : 'over'">
+        <mat-list role="list">
+            <mat-list-item role="listitem"><a class="sidenav-link" mat-button [routerLink]="['/']">Live
+                    Spindel-Daten</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item role="listitem"><a class="sidenav-link" mat-button [routerLink]="['/newMeasure']">Neue
+                    Messung</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item role="listitem"><a class="sidenav-link" mat-button [routerLink]="['/viewMeasure']">Messungen
+                    anzeigen</a></mat-list-item>
+        </mat-list>
+
+
+    </mat-drawer>
+    <mat-drawer-content>
+        <router-outlet></router-outlet>
+        <!--<app-graph></app-graph>-->
+    </mat-drawer-content>
+</mat-drawer-container>
