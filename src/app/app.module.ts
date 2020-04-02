@@ -10,7 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LiveDataComponent } from './live-data/live-data.component';
-import { SpindelSensorComponent } from './spindel-sensor/spindel-sensor.component';
+import { NewMeasureComponent } from './new-measure/new-measure.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions =
 {
@@ -27,7 +27,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions =
     AppComponent,
     GraphComponent,
     LiveDataComponent,
-    SpindelSensorComponent,
+    NewMeasureComponent,
   ],
   imports: [
     BrowserModule,

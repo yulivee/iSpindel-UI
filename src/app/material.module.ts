@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -18,7 +20,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatButtonModule,
         MatListModule,
         MatCardModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     exports: [
         CommonModule,
@@ -28,7 +32,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatButtonModule,
         MatListModule,
         MatCardModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatFormFieldModule,
+        MatInputModule
     ]
 })
 export class CustomMaterialModule { }

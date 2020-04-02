@@ -4,7 +4,7 @@ import { NumericalSensor } from './NumericalSensor';
 export class TemperatureSensor extends NumericalSensor {
     type: SENSOR_TYPE.TEMP;
 
-    constructor(name: string, topic: string) {
+    constructor(name: string, topic: string, icon: string) {
         super(name, topic);
     }
 

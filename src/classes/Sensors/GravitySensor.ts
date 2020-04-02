@@ -4,7 +4,7 @@ import { NumericalSensor } from './NumericalSensor';
 export class GravitySensor extends NumericalSensor {
     type: SENSOR_TYPE.GRAV;
 
-    constructor(name: string, topic: string) {
+    constructor(name: string, topic: string, icon: string) {
         super(name, topic);
     }
 

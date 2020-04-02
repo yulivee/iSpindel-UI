@@ -1,5 +1,25 @@
-<div class="content-container">
-    <div class="cards-container">
-        <app-sensor-card class="card" *ngFor="let sensor of room.Sensors" [sensor]="sensor"></app-sensor-card>
-    </div>
+<div class="sensor-card">
+    <mat-card>
+        <mat-card-header>
+            <mat-icon mat-card-avatar aria-hidden="false" svgIcon="coolant-temperature"></mat-icon>
+            <mat-card-title>Temperatur: {{currentTemperature$ | async}} °C
+            </mat-card-title>
+        </mat-card-header>
+    </mat-card>
+</div>
+<div class="sensor-card">
+    <mat-card>
+        <mat-card-header>
+            <mat-icon mat-card-avatar aria-hidden="false" svgIcon="battery-charging-high"></mat-icon>
+            <mat-card-title>Batterieladung: {{currentBattery$ | async}} %</mat-card-title>
+        </mat-card-header>
+    </mat-card>
+</div>
+<div class="sensor-card">
+    <mat-card>
+        <mat-card-header>
+            <mat-icon mat-card-avatar aria-hidden="false" svgIcon="chart-sankey"></mat-icon>
+            <mat-card-title>Stammwürze: {{currentGravity$ | async}} °Plato</mat-card-title>
+        </mat-card-header>
+    </mat-card>
 </div>

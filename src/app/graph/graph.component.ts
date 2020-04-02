@@ -23,9 +23,6 @@ export class GraphComponent implements OnInit {
 
   public chart: CanvasJS.Chart;
   public graphConfig: GraphConfig;
-  public currentTemperature$: Observable<number>;
-  public currentBattery$: Observable<number>;
-  public currentGravity$: Observable<number>;
   private _temperatureDataList$: Observable<IDataPoint[]>;
   public temperature: Temperature = new Temperature('red', 0);
   public temperatureDef: TemperatureDefinition = new TemperatureDefinition(this.temperature.name, this.temperature.color);
@@ -42,10 +39,6 @@ export class GraphComponent implements OnInit {
   constructor(private _graphService: GraphService, private _mqttService: MqttSubscriptionService) { }
 
   ngOnInit() {
-
-    this.currentTemperature$ = this._mqttService.getTemperature();
-    this.currentBattery$ = this._mqttService.getBattery();
-    this.currentGravity$ = this._mqttService.getGravity();
 
     this._temperatureDataList$ = this._graphService.getTemperatureList(1, 2);
     this._batteryDataList$ = this._graphService.getBatteryList(1, 2);
