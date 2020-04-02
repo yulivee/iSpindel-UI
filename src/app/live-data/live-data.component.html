@@ -2,8 +2,9 @@
     <mat-card>
         <mat-card-header>
             <mat-icon mat-card-avatar aria-hidden="false" svgIcon="coolant-temperature"></mat-icon>
-            <mat-card-title>Temperatur: {{currentTemperature$ | async}} °C
-            </mat-card-title>
+            Temperatur
+            <br>
+            {{currentTemperature$ | async}} °C
         </mat-card-header>
     </mat-card>
 </div>
@@ -11,7 +12,9 @@
     <mat-card>
         <mat-card-header>
             <mat-icon mat-card-avatar aria-hidden="false" svgIcon="battery-charging-high"></mat-icon>
-            <mat-card-title>Batterieladung: {{currentBattery$ | async}} %</mat-card-title>
+            Batterieladung
+            <br>
+            {{currentBattery$ | async}} %
         </mat-card-header>
     </mat-card>
 </div>
@@ -19,7 +22,9 @@
     <mat-card>
         <mat-card-header>
             <mat-icon mat-card-avatar aria-hidden="false" svgIcon="chart-sankey"></mat-icon>
-            <mat-card-title>Stammwürze: {{currentGravity$ | async}} °Plato</mat-card-title>
+            Stammwürze
+            <br>
+            {{currentGravity$ | async}} °Plato
         </mat-card-header>
     </mat-card>
 </div>
