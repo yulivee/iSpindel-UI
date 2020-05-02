@@ -13,6 +13,7 @@ import { Battery } from 'src/classes/Data/Battery';
 import { GraphConfig } from 'src/classes/GraphConfig';
 import { map } from 'rxjs/operators';
 import { MqttSubscriptionService } from 'src/services/mqtt.service';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-graph',
@@ -35,8 +36,27 @@ export class GraphComponent implements OnInit {
   public gravity: Gravity = new Gravity('green', 2)
   public gravityDef: GravityDefinition = new GravityDefinition(this.gravity.name, this.gravity.color);
 
+  multi: any[];
+  view: any[] = [700, 300];
 
-  constructor(private _graphService: GraphService, private _mqttService: MqttSubscriptionService) { }
+  // options
+  legend: boolean = true;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxisLabel: string = 'Date';
+  yAxisLabel: string = 'Measurement';
+  timeline: boolean = true;
+
+  colorScheme = {
+    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+  };
+
+  constructor(private _graphService: GraphService, private _mqttService: MqttSubscriptionService) {
+  }
 
   ngOnInit() {
 
@@ -51,6 +71,19 @@ export class GraphComponent implements OnInit {
         this.battery.dataPoints = batteryData;
       })
     ).subscribe(() => this.initChart());
+  }
+
+
+  onSelect(data): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
   private initChart(): void {
